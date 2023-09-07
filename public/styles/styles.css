@@ -1,0 +1,12 @@
+body {
+	background: #333;
+	color: #fff;
+}
+
+a {
+	text-decoration: none;
+}
+
+li {
+	list-style-type: none;
+}
