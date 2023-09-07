@@ -1,7 +1,8 @@
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
-const PORT = process.env.PORT || 8080;
+const url = require('url');
+const PORT = 8080;
 
 const server = http.createServer((req, res) => {
 	let filePath = path.join(
@@ -10,9 +11,12 @@ const server = http.createServer((req, res) => {
 		req.url === '/' ? 'index.html' : req.url
 	);
 
-	let fileExtent = path.extname(filePath);
+	let testPath = url.parse(req.url, true);
+	console.log(path.join(testPath.path));
 
+	let fileExtent = path.extname(filePath);
 	let contentType = 'text/html';
+
 	switch (fileExtent) {
 		case '.css':
 			contentType = 'text/css';
@@ -21,6 +25,8 @@ const server = http.createServer((req, res) => {
 			contentType = 'text/html';
 			break;
 	}
+
+	console.log(filePath);
 
 	fs.readFile(filePath, (err, content) => {
 		if (err) {
@@ -40,4 +46,4 @@ const server = http.createServer((req, res) => {
 	});
 });
 
-server.listen(PORT, () => console.log('Server running'));
+server.listen(PORT, () => console.log(`Server running -- ${PORT}`));
